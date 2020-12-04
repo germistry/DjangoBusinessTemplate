@@ -97,3 +97,100 @@ class ServiceManager(models.Manager):
 
     def get_tag_services(self, tag):
         return self.get_queryset().get_tag_services(tag)
+
+class PackageItemManager(models.Manager):
+    
+    def all(self):
+        return self.get_queryset()
+
+class PackageManager(models.Manager):
+    
+    def all(self):
+        return self.get_queryset()
+
+class QuoteQuerySet(models.QuerySet):
+
+    def get_open_quotes(self):
+        return self.filter(status='open')
+
+    def get_closed_quotes(self):
+        return self.filter(status='closed')
+
+class QuoteManager(models.Manager):
+    
+    def get_queryset(self):
+        return QuoteQuerySet(self.model, using=self._db)
+    
+    def all(self):
+        return self.get_queryset()
+
+    def get_open_quotes(self):
+        return self.get_queryset().get_open_quotes()
+
+    def get_closed_quotes(self):
+        return self.get_queryset().get_closed_quotes()
+
+class OrderQuerySet(models.QuerySet):
+
+    def get_open_orders(self):
+        return self.filter(status='open')
+
+    def get_closed_orders(self):
+        return self.filter(status='closed')
+
+class OrderManager(models.Manager):
+    
+    def get_queryset(self):
+        return OrderQuerySet(self.model, using=self._db)
+
+    def all(self):
+        return self.get_queryset()
+
+    def get_open_orders(self):
+        return self.get_queryset().get_open_orders()
+
+    def get_closed_orders(self):
+        return self.get_queryset().get_closed_orders()
+
+class OrderItemManager(models.Manager):
+    
+    def all(self):
+        return self.get_queryset()
+
+class PostQuerySet(models.QuerySet):
+    def get_authors_posts(self, username):
+        return self.filter(user__username, username)
+
+    def get_draft_posts(self):
+        return self.filter(status='draft')
+
+    def get_published_posts(self):
+        return self.filter(status='published')
+    
+    def get_category_posts(self, category):
+        return self.filter(post_category__category__category, category)
+
+    def get_tag_posts(self, tag):
+        return self.filter(post_tag__tag__tag, tag)
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model, using=self._db)
+
+    def all(self):
+        return self.get_queryset()
+
+    def get_authors_posts(self, username):
+        return self.get_queryset().get_authors_posts(username)
+
+    def get_draft_posts(self):
+        return self.get_queryset().get_draft_posts()
+
+    def get_published_posts(self):
+        return self.get_queryset().get_published_posts()
+
+    def get_category_posts(self, category):
+        return self.get_queryset().get_category_posts(category)
+
+    def get_tag_posts(self, tag):
+        return self.get_queryset().get_tag_posts(tag)

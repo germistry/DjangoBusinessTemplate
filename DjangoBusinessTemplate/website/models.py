@@ -1,8 +1,9 @@
 from django.db import models
 from django.urls import reverse
-from .managers import EmployeeManager, ClientManager, TestimonialManager, ProjectManager, ServiceManager
+from .managers import EmployeeManager, ClientManager, TestimonialManager, ProjectManager, ServiceManager, PackageItemManager, PackageManager, QuoteManager, OrderManager, OrderItemManager, PostManager
 from django.utils import timezone
 from django.contrib.auth.models import User
+from mptt.models import MPTTModel, TreeForeignKey
 
 class JobTitle(models.Model):
 
@@ -69,6 +70,8 @@ class Testimonial(models.Model):
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
 
+    #need the default objects Manager here to make the code in the nested-admin package work properly.
+    objects = models.Manager()
     testimonials = TestimonialManager()
 
     class Meta:
@@ -158,9 +161,21 @@ class PackageItem(models.Model):
 
     package_item = models.CharField(max_length=100)
 
+    package_items = PackageItemManager()
+
     def __str__(self):
         return self.package_item
 
+class TaxRate(models.Model):
+
+    tax_rate_name = models.CharField(max_length=3)
+    tax_rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    class Meta:
+        ordering = ['tax_rate_name']
+
+    def __str__(self):
+        return self.tax_rate_name
 
 class Package(models.Model):
 
@@ -171,11 +186,14 @@ class Package(models.Model):
 
     package_name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=8, decimal_places=2)
+    tax_rate_name = models.ForeignKey(TaxRate, on_delete=models.PROTECT, related_name='packages_tax_rate_names')
     period = models.CharField(max_length=10, choices=period_options, default='per month')
     description = models.CharField(max_length=254, blank=True, null=True)
     package_items = models.ManyToManyField(PackageItem, related_name='package_items')
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
+
+    packages = PackageManager()
 
     @property
     def price_display(self):
@@ -202,17 +220,107 @@ class Quote(models.Model):
         ('2-4','2-4 weeks'),
         ('4plus','4+ weeks'),
         )
+
+    status_options = (
+        ('open', 'Open'),
+        ('closed','Closed'),
+        )
+
     #if client already exists pull in their details for quote or else create new client when saving
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='quotes_clients')
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, related_name='quotes_clients')
     services = models.ManyToManyField(Service, related_name='quotes_services')
     overview = models.TextField()
     budget = models.CharField(max_length=16, choices=budget_options, default='undecided')
     start_time = models.CharField(max_length=16, choices=start_options, default='asap')
     submitted = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=8, choices=status_options, default='open')
+    
+    #need the default objects Manager here to make the code in the nested-admin package work properly.
+    objects = models.Manager()
+    quotes = QuoteManager()
 
     class Meta:
-        ordering = ['submitted']
+        ordering = ['-status', 'submitted']
 
     def __str__(self):
-        return '{} quote {}'.format(self.client, self.submitted)
+        return str(self.id)
     
+class Order(models.Model):
+    
+    status_options = (
+        ('open', 'Open'),
+        ('closed','Closed'),
+        )
+
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, related_name='orders_clients')
+    submitted = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=8, choices=status_options, default='open')
+
+    #need the default objects Manager here to make the code in the nested-admin package work properly.
+    objects = models.Manager()
+    orders = OrderManager()
+
+    class Meta:
+        ordering = ['client', '-status', 'submitted']
+
+    def __str__(self):
+        return str(self.id)
+
+class OrderItem(models.Model):
+
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items_orders')
+    package = models.ForeignKey(Package, on_delete=models.PROTECT, related_name='order_items_packages')
+    quantity = models.IntegerField()
+
+    #need the default objects Manager here to make the code in the nested-admin package work properly.
+    objects = models.Manager()
+    order_items = OrderItemManager()
+
+    def __str__(self):
+        return str(self.id)
+
+class Post(models.Model):
+    
+    options = (
+    ('draft', 'Draft'),
+    ('published', 'Published'),
+    )
+
+    post_title = models.CharField(max_length=100)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts_authors')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts_categorys')
+    tags = models.ManyToManyField(Tag, related_name='posts_tags')
+    image = models.ImageField(upload_to='posts/', default='posts/default.jpg', null=True)
+    image_caption = models.CharField(max_length=200, blank=True, null=True)
+    content = models.TextField()
+    excerpt = models.CharField(max_length=254, blank=True, null=True)
+    status = models.CharField(max_length=10, choices=options, default='draft')
+    slug = models.SlugField(max_length=100, unique=True)
+    updated = models.DateTimeField(auto_now=True)
+    published = models.DateTimeField(default=timezone.now)
+
+    projects = PostManager()
+
+    def get_absolute_url(self):
+        return reverse('post:single', args=[self.slug])
+
+    class Meta:
+        ordering = ['-published']
+
+    def __str__(self):
+        return self.post_title
+
+class Comment(MPTTModel):
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments_posts')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    display_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    content = models.TextField()
+    published = models.DateTimeField(auto_now_add=True)
+
+    class MPTTMeta:
+        order_insertion_by = ['published']
+
+    def __str__(self):
+        return 'Comment by {}'.format(self.display_name)
