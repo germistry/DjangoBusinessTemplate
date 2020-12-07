@@ -20,6 +20,9 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Raleway", sans-serif;
 }
+p {
+    font-size: 1rem;
+}
 
 /*--------------------------------------------------------------
 # Back to top button
@@ -228,7 +231,6 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   right: 15px;
 }
-
 @media (max-width: 1366px) {
   .nav-menu .drop-down .drop-down ul {
     left: -90%;
@@ -890,7 +892,7 @@ section {
 }
 
 .testimonials .testimonial-item .quote-icon-left, .testimonials .testimonial-item .quote-icon-right {
-  color: white;
+  color: gainsboro;
   font-size: 26px;
 }
 
@@ -909,6 +911,8 @@ section {
 
 .testimonials .testimonial-item p {
   font-style: italic;
+  font-size: 1rem;
+  line-height: 2rem;
   margin: 15px 0 0 0;
   padding: 0;
 }

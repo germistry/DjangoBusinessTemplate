@@ -48,9 +48,11 @@ class Client(models.Model):
     company_url = models.URLField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='clients/', default='clients/default.png', null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
+    show_website = models.BooleanField(default=False) #determines whether client can be shown on public website for marketing
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
 
+    objects = models.Manager()
     clients = ClientManager()
 
     class Meta: 

@@ -11,12 +11,28 @@ class EmployeeManager(models.Manager):
     def all(self):
         return self.get_queryset()
 
+    def all_count(self):
+        return self.get_queryset().count()
+
     def show_homepage(self):
         return self.get_queryset().show_homepage()
 
+class ClientQuerySet(models.QuerySet):
+    def display_website(self):
+        return self.filter(show_website=True).exclude(company__isnull=True)
+
 class ClientManager(models.Manager):
+    def get_queryset(self):
+        return ClientQuerySet(self.model, using=self._db)
+    
     def all(self):
         return self.get_queryset()
+
+    def all_count(self):
+        return self.get_queryset().count()
+
+    def display_website(self):
+        return self.get_queryset().display_website()
 
 class TestimonialManager(models.Manager):
     def all(self):
