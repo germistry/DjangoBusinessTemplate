@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from .managers import EmployeeManager, ClientManager, TestimonialManager, ProjectManager, ServiceManager, PackageItemManager, PackageManager, QuoteManager, OrderManager, OrderItemManager, PostManager
+from .managers import EmployeeManager, ClientManager, TestimonialManager, ProjectManager, ServiceManager, PackageItemManager, PackageManager, QuoteManager, OrderManager, OrderItemManager, PostManager, TagManager, CategoryManager
 from django.utils import timezone
 from django.contrib.auth.models import User
 from mptt.models import MPTTModel, TreeForeignKey
@@ -86,12 +86,18 @@ class Category(models.Model):
 
     category = models.CharField(max_length=40)
 
+    objects = models.Manager()
+    categories = CategoryManager()
+
     def __str__(self):
         return self.category
 
 class Tag(models.Model):
 
     tag = models.CharField(max_length=40)
+
+    objects = models.Manager()
+    tags = TagManager()
 
     def __str__(self):
         return self.tag
@@ -106,7 +112,7 @@ class Project(models.Model):
     project_title = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects_authors')
     project_url = models.URLField(max_length=200, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='projects_categorys')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='projects_categories')
     tags = models.ManyToManyField(Tag, related_name='projects_tags')
     image = models.ImageField(upload_to='projects/', default='projects/default.jpg', null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
@@ -117,6 +123,7 @@ class Project(models.Model):
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
 
+    objects = models.Manager()
     projects = ProjectManager()
 
     def get_absolute_url(self):
@@ -137,7 +144,7 @@ class Service(models.Model):
 
     service_name = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='services_authors')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='services_categorys')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='services_categories')
     tags = models.ManyToManyField(Tag, related_name='services_tags')
     image = models.ImageField(upload_to='services/', default='services/default.jpg', null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
@@ -148,10 +155,11 @@ class Service(models.Model):
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
 
+    objects = models.Manager()
     services = ServiceManager()
 
     def get_absolute_url(self):
-        return reverse('service:single', args=[self.slug])
+        return reverse('service_detail', args=[self.slug])
 
     class Meta:
         ordering = ['category', 'service_name']
@@ -163,6 +171,7 @@ class PackageItem(models.Model):
 
     package_item = models.CharField(max_length=100)
 
+    objects = models.Manager()
     package_items = PackageItemManager()
 
     def __str__(self):
@@ -172,6 +181,8 @@ class TaxRate(models.Model):
 
     tax_rate_name = models.CharField(max_length=3)
     tax_rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    objects = models.Manager()
 
     class Meta:
         ordering = ['tax_rate_name']
@@ -195,6 +206,7 @@ class Package(models.Model):
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
 
+    objects = models.Manager()
     packages = PackageManager()
 
     @property
@@ -290,7 +302,7 @@ class Post(models.Model):
 
     post_title = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts_authors')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts_categorys')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts_categories')
     tags = models.ManyToManyField(Tag, related_name='posts_tags')
     image = models.ImageField(upload_to='posts/', default='posts/default.jpg', null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
@@ -301,6 +313,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
 
+    objects = models.Manager()
     projects = PostManager()
 
     def get_absolute_url(self):

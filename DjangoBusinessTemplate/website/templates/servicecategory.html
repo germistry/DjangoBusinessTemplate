@@ -1,6 +1,6 @@
 ﻿{% extends 'base.html' %}
 
-{% block title %}Services{% endblock %}
+{% block title %}{{service_categorylist.category}} Services{% endblock %}
 {% block description %}At ABC Elec we offer many services as your local electrical engineers for all domestic and commercial electrical applications.{% endblock %}
 {% block ogtype %}website{% endblock %}
 {% block ogurl %}{% url 'allservices' %}{% endblock %}
@@ -10,45 +10,42 @@
 {% block content %}
 
 
-  <main id="main">
+<main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
-      <div class="container">
+        <div class="container">
 
-        <ol>
-          <li><a href="{% url 'home' %}">Home</a></li>
-          <li>Services</li>
-        </ol>
-        <h2>Services</h2>
+            <ol>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li>{{service_categorylist.category}} Services</li>
+            </ol>
+            <h2>Services</h2>
 
-      </div>
+        </div>
     </section><!-- End Breadcrumbs -->
-
-    <!-- ======= Services Section ======= 
+    <!-- ======= Services Section =======
         used the boxicons? replaced with images-->
-<section id="services" class="services">
-    <div class="container">
+    <section id="services" class="services">
+        <div class="container">
 
-        <div class="row">
-          {% for service in services %}
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                <div class="icon-box">
-                    <!--<div class="icon"><i class="bx bxl-dribbble"></i></div>-->
-                    <img class="img-fluid" src="{{service.image.url}}" alt="{{service.image_caption}}"/>
-                    <p style="font-size:x-small; font-style:italic;">{{service.image_caption}}</p>
-                    <h4><a href="{{service.get_absolute_url}}">{{service.service_name}}</a></h4>
-                    <h5><a href="#">{{service.category}}</a></h5>
-                    <p>{{service.excerpt|truncatewords:50}}</p>
+            <div class="row">
+                {% for service in service_categorylist.services %}
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="icon-box">
+                        <!--<div class="icon"><i class="bx bxl-dribbble"></i></div>-->
+                        <img class="img-fluid" src="{{service.image.url}}" alt="{{service.image_caption}}" />
+                        <p style="font-size:x-small; font-style:italic;">{{service.image_caption}}</p>
+                        <h4><a href="{{service.get_absolute_url}}">{{service.service_name}}</a></h4>
+                        <p>{{service.excerpt|truncatewords:50}}</p>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-          {% endfor %}
-       </div>
 
-      </div>
+        </div>
     </section><!-- End Services Section -->
-
-    <!-- ======= Our Skills Section ======= 
+    <!-- ======= Our Skills Section =======
         ------Uses Waypoints?---------
         <section id="skills" class="skills">
       <div class="container">
@@ -106,6 +103,5 @@
       </div>
     </section> End Our Skills Section -->
 
-  </main><!-- End #main -->
-
-{% endblock %}  
+</main><!-- End #main -->
+{% endblock %}

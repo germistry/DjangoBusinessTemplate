@@ -698,7 +698,7 @@ section {
 .services .icon-box {
   text-align: center;
   border: 1px solid #ededed;
-  padding: 80px 20px;
+  padding: 40px 20px;
   transition: all ease-in-out 0.3s;
 }
 
@@ -743,6 +743,15 @@ section {
 .services .icon-box h4 a {
   color: #545454;
 }
+    .services .icon-box h5 {
+        font-weight: 400;
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+
+        .services .icon-box h5 a {
+            color: #e96b56;
+        }
 
 .services .icon-box p {
   line-height: 24px;
@@ -767,9 +776,9 @@ section {
   background: #ef9383;
 }
 
-.services .icon-box:hover h4 a, .services .icon-box:hover p {
-  color: #fff;
-}
+    .services .icon-box:hover h4 a, .services .icon-box h5 a, .services .icon-box:hover p {
+        color: #fff;
+    }
 
 /*--------------------------------------------------------------
 # Our Clients
@@ -984,9 +993,10 @@ section {
 --------------------------------------------------------------*/
 .portfolio .portfolio-item {
   margin-bottom: 30px;
+  font-size: 1rem;
 }
 
-.portfolio #portfolio-flters {
+.portfolio #portfolio-filters {
   padding: 0;
   margin: 0 auto 25px auto;
   list-style: none;
@@ -996,7 +1006,7 @@ section {
   padding: 2px 15px;
 }
 
-.portfolio #portfolio-flters li {
+.portfolio #portfolio-filters li {
   cursor: pointer;
   display: inline-block;
   padding: 8px 20px 12px 20px;
@@ -1010,12 +1020,12 @@ section {
   background: #f2f2f2;
 }
 
-.portfolio #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
+.portfolio #portfolio-filters li:hover, .portfolio #portfolio-filters li.filter-active {
   background: #e96b56;
   color: #fff;
 }
 
-.portfolio #portfolio-flters li:last-child {
+.portfolio #portfolio-filters li:last-child {
   margin-right: 0;
 }
 
@@ -1505,13 +1515,15 @@ section {
 # Blog
 --------------------------------------------------------------*/
 .blog {
-  padding-bottom: 30px;
+    padding-bottom: 30px;
+    font-size: 1rem;
 }
 
 .blog .entry {
   padding: 30px;
   margin-bottom: 60px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  
 }
 
 .blog .entry .entry-img {
@@ -1650,10 +1662,10 @@ section {
   display: inline;
 }
 
-.blog .entry .entry-footer a {
-  color: #cecece;
-  transition: 0.3s;
-}
+    .blog .entry .entry-footer a {
+        color: #a1a1a1;
+        transition: 0.3s;
+    }
 
 .blog .entry .entry-footer a:hover {
   color: #e96b56;
@@ -1887,6 +1899,7 @@ section {
   padding: 30px;
   margin: 0 0 60px 20px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
 }
 
 .blog .sidebar .sidebar-title {

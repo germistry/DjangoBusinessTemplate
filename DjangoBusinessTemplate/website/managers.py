@@ -47,12 +47,6 @@ class ProjectQuerySet(models.QuerySet):
 
     def get_published_projects(self):
         return self.filter(status='published')
-    
-    def get_category_projects(self, category):
-        return self.filter(project_category__category__category, category)
-
-    def get_tag_projects(self, tag):
-        return self.filter(project_tag__tag__tag, tag)
 
 class ProjectManager(models.Manager):
     def get_queryset(self):
@@ -70,27 +64,15 @@ class ProjectManager(models.Manager):
     def get_published_projects(self):
         return self.get_queryset().get_published_projects()
 
-    def get_category_projects(self, category):
-        return self.get_queryset().get_category_projects(category)
-
-    def get_tag_projects(self, tag):
-        return self.get_queryset().get_tag_projects(tag)
-
 class ServiceQuerySet(models.QuerySet):
-    def get_authors_services(self, username):
-        return self.filter(user__username, username)
+    def get_author_services(self, username):
+        return self.filter(author__user__username=username)
 
     def get_draft_services(self):
         return self.filter(status='draft')
 
     def get_published_services(self):
         return self.filter(status='published')
-
-    def get_category_services(self, category):
-        return self.filter(service_category__category__category, category)
-
-    def get_tag_services(self, tag):
-        return self.filter(service_tag__tag__tag, tag)
 
 class ServiceManager(models.Manager):
     def get_queryset(self):
@@ -99,20 +81,14 @@ class ServiceManager(models.Manager):
     def all(self):
         return self.get_queryset()
 
-    def get_authors_services(self, username):
-        return self.get_queryset().get_authors_services(username)
+    def get_users_services(self, username):
+        return self.get_queryset().get_author_services(username)
 
     def get_draft_services(self):
         return self.get_queryset().get_draft_services()
 
     def get_published_services(self):
         return self.get_queryset().get_published_services()
-
-    def get_category_services(self, category):
-        return self.get_queryset().get_category_services(category)
-
-    def get_tag_services(self, tag):
-        return self.get_queryset().get_tag_services(tag)
 
 class PackageItemManager(models.Manager):
     
@@ -182,12 +158,6 @@ class PostQuerySet(models.QuerySet):
 
     def get_published_posts(self):
         return self.filter(status='published')
-    
-    def get_category_posts(self, category):
-        return self.filter(post_category__category__category, category)
-
-    def get_tag_posts(self, tag):
-        return self.filter(post_tag__tag__tag, tag)
 
 class PostManager(models.Manager):
     def get_queryset(self):
@@ -205,8 +175,22 @@ class PostManager(models.Manager):
     def get_published_posts(self):
         return self.get_queryset().get_published_posts()
 
-    def get_category_posts(self, category):
-        return self.get_queryset().get_category_posts(category)
+class CategoryQuerySet(models.QuerySet):
+    def get_services_categories(self):
+        return self.exclude(services_categories=None)
 
-    def get_tag_posts(self, tag):
-        return self.get_queryset().get_tag_posts(tag)
+class CategoryManager(models.Manager):
+    def get_queryset(self):
+        return CategoryQuerySet(self.model, using=self._db)
+
+    def all(self):
+        return self.get_queryset()
+
+    def get_services_categories(self):
+        return self.get_queryset().get_services_categories()
+
+class TagManager(models.Manager):
+    def all(self):
+        return self.get_queryset()
+
+   

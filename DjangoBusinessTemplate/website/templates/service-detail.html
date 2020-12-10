@@ -1,0 +1,161 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}{{service.service_name}}{% endblock %}
+{% block description %}{{service.excerpt|truncatewords:50}}{% endblock %}
+{% block ogtype %}article{% endblock %}
+{% block ogurl %}{{service.get_absolute_url}}{% endblock %}
+{% block ogimage %}{{service.image.url}}{% endblock %}
+{% block keywords %}{{service.tags}}{% endblock %}
+{% load static %}
+{% block content %}
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+
+        <ol>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'allservices' %}">Services</a></li>
+            <li>{{service.service_name}}</li>
+        </ol>
+        <h2>{{service.service_name}}</h2>
+
+    </div>
+</section><!-- End Breadcrumbs -->
+
+    <!-- ======= Service Section ======= -->
+<section id="blog" class="blog">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-8 entries">
+                <article class="entry entry-single">
+                <div class="entry-img">
+                    <img src="{{service.image.url}}" alt="{{service.image_caption}}" class="img-fluid">
+                </div>
+                <h2 class="entry-title">{{service.service_name}}</h2>
+
+                <div class="entry-meta">
+                    <ul>
+                        <!--<li class="d-flex align-items-center"><i class="icofont-user"></i> author name</li>-->
+                        <li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> {{service.updated}}</li>
+                        <!--<li class="d-flex align-items-center"><i class="icofont-comment"></i> (count) Comment</li>-->
+                    </ul>
+                </div>
+
+                <div class="entry-content">
+                <p>{{service.content|safe}}</p>
+                
+                <!--These classes can be used in HTML editor. Build asset tracking system.
+                <blockquote>
+                  <i class="icofont-quote-left quote-left"></i>
+                  <p>
+                    Et vero doloremque tempore voluptatem ratione vel aut. Deleniti sunt animi aut. Aut eos aliquam doloribus minus autem quos.
+                  </p>
+                  <i class="las la-quote-right quote-right"></i>
+                  <i class="icofont-quote-right quote-right"></i>
+                </blockquote>
+
+                <h3>Et quae iure vel ut odit alias.</h3>
+                
+                <img src="assets/img/blog-inside-post.jpg" class="img-fluid" alt="">
+
+                <h3>Ut repellat blanditiis est dolore sunt dolorum quae.</h3>-->
+            </div>
+
+            <div class="entry-footer clearfix">
+                <div class="float-left">
+                    <i class="icofont-folder"></i>
+                    <ul class="cats">
+                        <li><a href="#">{{service.category}}</a></li>
+                    </ul>
+                    <i class="icofont-tags"></i>
+                    <ul class="tags">
+                        <li><a href="#">Creative</a></li>
+                        <li><a href="#">Tips</a></li>
+                        <li><a href="#">Marketing</a></li>
+                    </ul>
+                </div>
+
+                <div class="float-right share">
+                    <a href="" title="Share on Twitter"><i class="icofont-twitter"></i></a>
+                    <a href="" title="Share on Facebook"><i class="icofont-facebook"></i></a>
+                    <a href="" title="Share on Instagram"><i class="icofont-instagram"></i></a>
+                </div>
+
+            </div>
+
+        </article><!-- End blog entry -->
+
+            <!--<div class="blog-author clearfix">
+                <img src="assets/img/blog-author.jpg" class="rounded-circle float-left" alt="">
+                <h4>author</h4>
+                <div class="social-links">
+                    <a href="https://twitters.com/#"><i class="icofont-twitter"></i></a>
+                    <a href="https://facebook.com/#"><i class="icofont-facebook"></i></a>
+                    <a href="https://instagram.com/#"><i class="icofont-instagram"></i></a>
+                </div>
+                <p>
+                    Itaque quidem optio quia voluptatibus dolorem dolor. Modi eum sed possimus accusantium. Quas repellat voluptatem officia numquam sint aspernatur voluptas. Esse et accusantium ut unde voluptas.
+                </p>
+                </div><!-- End blog author bio -->
+            </div><!-- End blog entries list -->
+
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <h3 class="sidebar-title">Search</h3>
+                    <div class="sidebar-item search-form">
+                        <form action="">
+                            <input type="text">
+                            <button type="submit"><i class="icofont-search"></i></button>
+                        </form>
+                    </div><!-- End sidebar search formn-->
+
+                    <h3 class="sidebar-title">Categories</h3>
+                    <div class="sidebar-item categories">
+                        <ul>
+                            <li><a href="#">General <span>(25)</span></a></li>
+                            <li><a href="#">Lifestyle <span>(12)</span></a></li>
+                            <li><a href="#">Travel <span>(5)</span></a></li>
+                            <li><a href="#">Design <span>(22)</span></a></li>
+                            <li><a href="#">Creative <span>(8)</span></a></li>
+                            <li><a href="#">Educaion <span>(14)</span></a></li>
+                        </ul>
+                    </div><!-- End sidebar categories-->
+
+                    <h3 class="sidebar-title">Other Services</h3>
+                    <div class="sidebar-item recent-posts">
+                        <div class="post-item clearfix">
+                            <img src="assets/img/blog-recent-1.jpg" alt="">
+                            <h4><a href="blog-single.html">Nihil blanditiis at in nihil autem</a></h4>
+                            <time datetime="2020-01-01">Jan 1, 2020</time>
+                        </div>
+                    </div><!-- End sidebar recent posts-->
+
+                    <h3 class="sidebar-title">Tags</h3>
+                    <div class="sidebar-item tags">
+                        <ul>
+                            <li><a href="#">App</a></li>
+                            <li><a href="#">IT</a></li>
+                            <li><a href="#">Business</a></li>
+                            <li><a href="#">Business</a></li>
+                            <li><a href="#">Mac</a></li>
+                            <li><a href="#">Design</a></li>
+                            <li><a href="#">Office</a></li>
+                            <li><a href="#">Creative</a></li>
+                            <li><a href="#">Studio</a></li>
+                            <li><a href="#">Smart</a></li>
+                            <li><a href="#">Tips</a></li>
+                            <li><a href="#">Marketing</a></li>
+                        </ul>
+                    </div><!-- End sidebar tags-->
+                </div><!-- End sidebar -->
+            </div><!-- End blog sidebar -->
+        </div>
+    </div>
+</section><!-- End Blog Section -->
+
+</main><!-- End #main -->
+{% endblock %}
