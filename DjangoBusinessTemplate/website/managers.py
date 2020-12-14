@@ -179,6 +179,9 @@ class CategoryQuerySet(models.QuerySet):
     def get_services_categories(self):
         return self.exclude(services_categories=None)
 
+    def get_projects_categories(self):
+        return self.exclude(projects_categories=None)
+
 class CategoryManager(models.Manager):
     def get_queryset(self):
         return CategoryQuerySet(self.model, using=self._db)
@@ -188,6 +191,9 @@ class CategoryManager(models.Manager):
 
     def get_services_categories(self):
         return self.get_queryset().get_services_categories()
+
+    def get_projects_categories(self):
+        return self.get_queryset().get_projects_categories()
 
 class TagManager(models.Manager):
     def all(self):

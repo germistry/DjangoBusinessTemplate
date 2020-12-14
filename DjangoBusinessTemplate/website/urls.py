@@ -8,5 +8,7 @@ urlpatterns = [
     path('services/', views.allservices, name="allservices"),
     path('services/<category>/', views.ServiceCategoryListView.as_view(), name='services_categories'),
     path('service/<slug:service>/', views.service_detail, name="service_detail"),
-    path('allprojects.html', views.allprojects, name="allprojects"),
+    path('projects/', views.allprojects, name="allprojects"),
+    path('projects/<category>/', views.ProjectCategoryListView.as_view(), name='projects_categories'),
+    path('project/<slug:project>/', views.project_detail, name="project_detail"),
 ]

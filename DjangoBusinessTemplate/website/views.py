@@ -26,11 +26,6 @@ def service_detail(request, service):
     service = get_object_or_404(Service, slug=service)
     return render(request, 'service-detail.html', {'service': service})
 
-def allprojects(request):
-    projects = Project.projects.get_published_projects()
-    clients = Client.clients.display_website()
-    return render(request, 'allprojects.html', {'projects': projects, 'clients': clients})
-
 #list view for page 
 class ServiceCategoryListView(ListView):
     template_name = 'servicecategory.html'
@@ -47,6 +42,34 @@ def services_category_list(request):
     services_category_list = Category.categories.get_services_categories()
     context = {
         "services_category_list": services_category_list,
+    }
+    return context
+
+def allprojects(request):
+    projects = Project.projects.get_published_projects()
+    clients = Client.clients.display_website()
+    return render(request, 'allprojects.html', {'projects': projects, 'clients': clients})
+
+def project_detail(request, project):
+    project = get_object_or_404(Project, slug=project)
+    return render(request, 'project-detail.html', {'project': project})
+
+#list view for page 
+class ProjectCategoryListView(ListView):
+    template_name = 'projectcategory.html'
+    context_object_name = 'project_categorylist'
+
+    def get_queryset(self):
+        content = {
+            'category': self.kwargs['category'],
+            'projects': Project.objects.filter(category__category=self.kwargs['category']).filter(status='published')
+        }
+        return content
+#list for menu 
+def projects_category_list(request):
+    projects_category_list = Category.categories.get_projects_categories()
+    context = {
+        "projects_category_list": projects_category_list,
     }
     return context
 

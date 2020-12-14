@@ -18,9 +18,9 @@
 
             <ol>
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li>{{service_categorylist.category}} Services</li>
+                <li><a href="{% url 'allservices' %}">Services</a></li>
             </ol>
-            <h2>Services</h2>
+            <h2>{{service_categorylist.category}} Services</h2>
 
         </div>
     </section><!-- End Breadcrumbs -->

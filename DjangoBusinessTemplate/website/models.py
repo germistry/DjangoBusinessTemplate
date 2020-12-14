@@ -127,7 +127,7 @@ class Project(models.Model):
     projects = ProjectManager()
 
     def get_absolute_url(self):
-        return reverse('project:single', args=[self.slug])
+        return reverse('project_detail', args=[self.slug])
 
     class Meta:
         ordering = ['-published']

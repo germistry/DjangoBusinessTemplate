@@ -1150,9 +1150,9 @@ section {
 /*--------------------------------------------------------------
 # Portfolio Details
 --------------------------------------------------------------*/
-.portfolio-details .portfolio-title {
-  font-size: 26px;
-  font-weight: 700;
+.portfolio-details .portfolio-excerpt {
+  font-size: 22px;
+  font-weight: 500;
   margin-bottom: 20px;
 }
 

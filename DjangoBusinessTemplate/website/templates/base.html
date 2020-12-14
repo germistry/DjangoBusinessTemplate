@@ -89,11 +89,19 @@
                         {% for services_category in services_category_list %}
                             <li><a href="/services/{{services_category.category}}">{{services_category.category|title}} Services</a></li>
                         {% endfor %}
-                        <li><a href="{% url 'allservices' %}">Search Services</a></li>
+                        
                     </ul>
                 </li>
           
-                <li><a href="{% url 'allprojects' %}">Portfolio</a></li>
+                <li class="drop-down"><a href="#">Portfolio</a>
+                    <ul>
+                        <li><a href="{% url 'allprojects' %}">All Projects</a></li>
+                        {% for projects_category in projects_category_list %}
+                            <li><a href="/projects/{{projects_category.category}}">{{projects_category.category|title}} Projects</a></li>
+                        {% endfor %}
+                        
+                    </ul>
+                </li>
                 <li><a href="#">Pricing</a></li>
                 <li><a href="#">Blog</a></li>
                 <li><a href="#">Contact</a></li>

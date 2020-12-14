@@ -1,0 +1,62 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}{{project.project_title}}{% endblock %}
+{% block description %}{{project.excerpt|truncatewords:50}}{% endblock %}
+{% block ogtype %}article{% endblock %}
+{% block ogurl %}{{project.get_absolute_url}}{% endblock %}
+{% block ogimage %}{{project.image.url}}{% endblock %}
+{% block keywords %}{{project.tags}}{% endblock %}
+{% load static %}
+{% block content %}
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+
+            <ol>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'allprojects' %}">Projects</a></li>
+                <li>{{project.project_title}}</li>
+            </ol>
+            <h2>{{project.project_title}}</h2>
+
+        </div>
+    </section><!-- End Breadcrumbs -->
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-8">
+                    <h2 class="portfolio-excerpt">{{project.excerpt}}</h2>
+                    <div class="owl-carousel portfolio-details-carousel">
+                        <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
+                        <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
+                        <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 portfolio-info">
+                    <h3>Project information</h3>
+                    <ul>
+                        <li><strong>Category</strong>: <a href="#">{{project.category}}</a></li>
+                        <li><strong>Client</strong>: ASU Company</li>
+                        <li><strong>Project date</strong>: 01 March, 2020</li>
+                        <li><strong>Project URL</strong>: <a href="{{project.project_url}}">{{project.project_url}}</a></li>
+                    </ul>
+
+                    <p>
+                        {{project.content|safe}}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Details Section -->
+
+</main>
+{% endblock %}

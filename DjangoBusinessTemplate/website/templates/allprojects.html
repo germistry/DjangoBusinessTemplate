@@ -15,7 +15,7 @@
 <section id="breadcrumbs" class="breadcrumbs">
     <div class="container">
         <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="{% url 'home' %}">Home</a></li>
             <li>Portfolio</li>
         </ol>
         <h2>Portfolio</h2>
@@ -169,6 +169,27 @@
 
       </div>
 </section><!-- End Portfolio Section -->
+
+<section id="services" class="services">
+    <div class="container">
+
+        <div class="row">
+          {% for project in projects %}
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="icon-box">
+                    <!--<div class="icon"><i class="bx bxl-dribbble"></i></div>-->
+                    <img class="img-fluid" src="{{project.image.url}}" alt="{{project.image_caption}}"/>
+                    <p style="font-size:x-small; font-style:italic;">{{project.image_caption}}</p>
+                    <h4><a href="{{project.get_absolute_url}}">{{project.project_title}}</a></h4>
+                    <h5><a href="#">{{project.category}}</a></h5>
+                    <p>{{project.excerpt|truncatewords:50}}</p>
+                </div>
+            </div>
+          {% endfor %}
+       </div>
+
+      </div>
+    </section><!-- End Services Section -->
 
     <!-- ======= Clients Section ======= -->
 <section id="clients" class="clients">

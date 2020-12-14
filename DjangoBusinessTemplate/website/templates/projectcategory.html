@@ -1,0 +1,50 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}{{project_categorylist.category}} Projects{% endblock %}
+{% block description %}Browse our portfolio to see other work we have completed for our valued clients.{% endblock %}
+{% block ogtype %}website{% endblock %}
+{% block ogurl %}{% url 'allprojects' %}{% endblock %}
+{% block ogimage %}{% endblock %}
+{% block keywords %}ABC Elec portfolio projects electricians domestic commercial renovations electrical supplies tradesmen{% endblock %}
+{% load static %}
+{% block content %}
+
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+
+            <ol>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'allprojects' %}">Portfolio</a></li>
+            </ol>
+            <h2>{{project_categorylist.category}} Projects</h2>
+
+        </div>
+    </section><!-- End Breadcrumbs -->
+    <!-- ======= Services Section =======
+        used the boxicons? replaced with images-->
+    <section id="services" class="services">
+        <div class="container">
+
+            <div class="row">
+                {% for project in project_categorylist.projects %}
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="icon-box">
+                        <!--<div class="icon"><i class="bx bxl-dribbble"></i></div>-->
+                        <img class="img-fluid" src="{{project.image.url}}" alt="{{project.image_caption}}" />
+                        <p style="font-size:x-small; font-style:italic;">{{project.image_caption}}</p>
+                        <h4><a href="{{project.get_absolute_url}}">{{project.project_title}}</a></h4>
+                        <p>{{project.excerpt|truncatewords:50}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+{% endblock %}
