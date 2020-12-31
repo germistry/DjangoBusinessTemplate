@@ -1,4 +1,4 @@
-from .models import Employee, Client, Testimonial, Service, Project, Category
+from .models import Employee, Client, Testimonial, Service, Project, Category, Package
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 #from datetime import datetime
@@ -73,6 +73,9 @@ def projects_category_list(request):
     }
     return context
 
+def allpackages(request):
+    packages = Package.packages.all()
+    return render(request, 'pricing.html', {'packages': packages})
 
 #def contact(request):
 #    """Renders the contact page."""

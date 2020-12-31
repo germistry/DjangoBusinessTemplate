@@ -18,6 +18,7 @@
         <ol>
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'allservices' %}">Services</a></li>
+            <li><a href="/services/{{service.category}}">{{service.category}} Services</a></li>
             <li>{{service.service_name}}</li>
         </ol>
         <h2>{{service.service_name}}</h2>
@@ -69,7 +70,7 @@
                 <div class="float-left">
                     <i class="icofont-folder"></i>
                     <ul class="cats">
-                        <li><a href="#">{{service.category}}</a></li>
+                        <li><a href="/services/{{service.category}}">{{service.category}}</a></li>
                     </ul>
                     <i class="icofont-tags"></i>
                     <ul class="tags">

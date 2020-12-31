@@ -123,7 +123,7 @@ class TaxRateAdmin(admin.ModelAdmin):
         ]
 
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('package_name', 'price', 'tax_rate_name', 'period', 'updated', 'published')
+    list_display = ('package_name', 'price', 'tax_rate_name', 'period', 'is_top_package', 'updated', 'published')
     inlines = [
         PackageItemsInline,
         OrderItemInline,

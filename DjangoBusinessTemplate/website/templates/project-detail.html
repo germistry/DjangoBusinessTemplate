@@ -18,6 +18,7 @@
             <ol>
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'allprojects' %}">Projects</a></li>
+                <li><a href="/projects/{{project.category}}">{{project.category}} Projects</a></li>
                 <li>{{project.project_title}}</li>
             </ol>
             <h2>{{project.project_title}}</h2>
@@ -32,19 +33,17 @@
 
                 <div class="col-lg-8">
                     <h2 class="portfolio-excerpt">{{project.excerpt}}</h2>
-                    <div class="owl-carousel portfolio-details-carousel">
-                        <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
-                        <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-                        <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
+                    <div class="owl-carousel portfolio-details-carousel"> <!--Get rid of the carousel-->
+                        <img src="{{project.image.url}}" class="img-fluid" alt="{{project.image_caption}}">
                     </div>
                 </div>
 
                 <div class="col-lg-4 portfolio-info">
                     <h3>Project information</h3>
                     <ul>
-                        <li><strong>Category</strong>: <a href="#">{{project.category}}</a></li>
-                        <li><strong>Client</strong>: ASU Company</li>
-                        <li><strong>Project date</strong>: 01 March, 2020</li>
+                        <li><strong>Category</strong>: <a href="/projects/{{project.category}}">{{project.category}}</a></li>
+                        <li><strong>Client</strong>: {{project.client}}</li>
+                        <li><strong>Project date</strong>: {{project.project_date|date:"j M, Y"}}</li>
                         <li><strong>Project URL</strong>: <a href="{{project.project_url}}">{{project.project_url}}</a></li>
                     </ul>
 

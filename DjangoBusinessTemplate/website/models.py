@@ -59,7 +59,9 @@ class Client(models.Model):
         ordering = ['last_name', 'first_name']
 
     def __str__(self):
-        return '{}, {}'.format(self.last_name, self.first_name)
+        if self.company is '':
+            return '{}, {}'.format(self.last_name, self.first_name)
+        return self.company
 
 class Testimonial(models.Model):
 
@@ -116,6 +118,8 @@ class Project(models.Model):
     tags = models.ManyToManyField(Tag, related_name='projects_tags')
     image = models.ImageField(upload_to='projects/', default='projects/default.jpg', null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
+    project_date = models.DateTimeField(blank=True, null=True)
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, related_name='projects_clients')
     content = models.TextField()
     excerpt = models.CharField(max_length=254, blank=True, null=True)
     status = models.CharField(max_length=10, choices=options, default='draft')
@@ -202,6 +206,7 @@ class Package(models.Model):
     tax_rate_name = models.ForeignKey(TaxRate, on_delete=models.PROTECT, related_name='packages_tax_rate_names')
     period = models.CharField(max_length=10, choices=period_options, default='per month')
     description = models.CharField(max_length=254, blank=True, null=True)
+    is_top_package = models.BooleanField(default=False)
     package_items = models.ManyToManyField(PackageItem, related_name='package_items')
     updated = models.DateTimeField(auto_now=True)
     published = models.DateTimeField(default=timezone.now)
