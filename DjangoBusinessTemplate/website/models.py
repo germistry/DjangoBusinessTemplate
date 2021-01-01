@@ -59,9 +59,11 @@ class Client(models.Model):
         ordering = ['last_name', 'first_name']
 
     def __str__(self):
-        if self.company is '':
-            return '{}, {}'.format(self.last_name, self.first_name)
-        return self.company
+        if self.company is None:
+            client_name = '{}, {}'.format(self.last_name, self.first_name)
+        else:
+            client_name = self.company
+        return client_name
 
 class Testimonial(models.Model):
 
@@ -262,7 +264,7 @@ class Quote(models.Model):
         ordering = ['-status', 'submitted']
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id)  
     
 class Order(models.Model):
     
@@ -319,10 +321,10 @@ class Post(models.Model):
     published = models.DateTimeField(default=timezone.now)
 
     objects = models.Manager()
-    projects = PostManager()
+    posts = PostManager()
 
     def get_absolute_url(self):
-        return reverse('post:single', args=[self.slug])
+        return reverse('post_detail', args=[self.slug])
 
     class Meta:
         ordering = ['-published']

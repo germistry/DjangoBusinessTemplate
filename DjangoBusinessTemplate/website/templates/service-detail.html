@@ -40,68 +40,36 @@
 
                 <div class="entry-meta">
                     <ul>
-                        <!--<li class="d-flex align-items-center"><i class="icofont-user"></i> author name</li>-->
-                        <li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> {{service.updated}}</li>
-                        <!--<li class="d-flex align-items-center"><i class="icofont-comment"></i> (count) Comment</li>-->
+                        <li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> {{service.updated|date:"j M, Y"}}</li>
                     </ul>
                 </div>
 
                 <div class="entry-content">
-                <p>{{service.content|safe}}</p>
-                
-                <!--These classes can be used in HTML editor. Build asset tracking system.
-                <blockquote>
-                  <i class="icofont-quote-left quote-left"></i>
-                  <p>
-                    Et vero doloremque tempore voluptatem ratione vel aut. Deleniti sunt animi aut. Aut eos aliquam doloribus minus autem quos.
-                  </p>
-                  <i class="las la-quote-right quote-right"></i>
-                  <i class="icofont-quote-right quote-right"></i>
-                </blockquote>
-
-                <h3>Et quae iure vel ut odit alias.</h3>
-                
-                <img src="assets/img/blog-inside-post.jpg" class="img-fluid" alt="">
-
-                <h3>Ut repellat blanditiis est dolore sunt dolorum quae.</h3>-->
-            </div>
-
-            <div class="entry-footer clearfix">
-                <div class="float-left">
-                    <i class="icofont-folder"></i>
-                    <ul class="cats">
-                        <li><a href="/services/{{service.category}}">{{service.category}}</a></li>
-                    </ul>
-                    <i class="icofont-tags"></i>
-                    <ul class="tags">
-                        <li><a href="#">Creative</a></li>
-                        <li><a href="#">Tips</a></li>
-                        <li><a href="#">Marketing</a></li>
-                    </ul>
+                    <p>{{service.content|safe}}</p>
                 </div>
 
-                <div class="float-right share">
-                    <a href="" title="Share on Twitter"><i class="icofont-twitter"></i></a>
-                    <a href="" title="Share on Facebook"><i class="icofont-facebook"></i></a>
-                    <a href="" title="Share on Instagram"><i class="icofont-instagram"></i></a>
+                <div class="entry-footer clearfix">
+                    <div class="float-left">
+                        <i class="icofont-folder"></i>
+                        <ul class="cats">
+                            <li><a href="/services/{{service.category}}">{{service.category}}</a></li>
+                        </ul>
+                        <i class="icofont-tags"></i>
+                        <ul class="tags">
+                            <li><a href="#">Creative</a></li>
+                            <li><a href="#">Tips</a></li>
+                            <li><a href="#">Marketing</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="float-right share">
+                        <a href="" title="Share on Twitter"><i class="icofont-twitter"></i></a>
+                        <a href="" title="Share on Facebook"><i class="icofont-facebook"></i></a>
+                        <a href="" title="Share on Instagram"><i class="icofont-instagram"></i></a>
+                    </div>
+
                 </div>
-
-            </div>
-
-        </article><!-- End blog entry -->
-
-            <!--<div class="blog-author clearfix">
-                <img src="assets/img/blog-author.jpg" class="rounded-circle float-left" alt="">
-                <h4>author</h4>
-                <div class="social-links">
-                    <a href="https://twitters.com/#"><i class="icofont-twitter"></i></a>
-                    <a href="https://facebook.com/#"><i class="icofont-facebook"></i></a>
-                    <a href="https://instagram.com/#"><i class="icofont-instagram"></i></a>
-                </div>
-                <p>
-                    Itaque quidem optio quia voluptatibus dolorem dolor. Modi eum sed possimus accusantium. Quas repellat voluptatem officia numquam sint aspernatur voluptas. Esse et accusantium ut unde voluptas.
-                </p>
-                </div><!-- End blog author bio -->
+                </article>
             </div><!-- End blog entries list -->
 
             <div class="col-lg-4">

@@ -1,4 +1,4 @@
-from .models import Employee, Client, Testimonial, Service, Project, Category, Package
+from .models import Employee, Client, Testimonial, Service, Project, Category, Package, Post
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 #from datetime import datetime
@@ -76,6 +76,14 @@ def projects_category_list(request):
 def allpackages(request):
     packages = Package.packages.all()
     return render(request, 'pricing.html', {'packages': packages})
+
+def allposts(request):
+    posts = Post.posts.get_published_posts()
+    return render(request, 'allposts.html', {'posts': posts})
+
+def post_detail(request, post):
+    post = get_object_or_404(Post, slug=post)
+    return render(request, 'post-detail.html', {'post': post})
 
 #def contact(request):
 #    """Renders the contact page."""

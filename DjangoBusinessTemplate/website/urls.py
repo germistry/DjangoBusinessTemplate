@@ -12,4 +12,6 @@ urlpatterns = [
     path('projects/<category>/', views.ProjectCategoryListView.as_view(), name='projects_categories'),
     path('project/<slug:project>/', views.project_detail, name="project_detail"),
     path('pricing/', views.allpackages, name="allpackages"),
+    path('posts/', views.allposts, name="allposts"),
+    path('post/<slug:post>/', views.post_detail, name="post_detail"),
 ]

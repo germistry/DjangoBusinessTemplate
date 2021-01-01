@@ -13,7 +13,7 @@ class TestimonialInline(NestedTabularInline):
     model = models.Testimonial
     extra = 0
 
-class ProjectInline(admin.TabularInline):
+class ProjectInline(NestedTabularInline):
     model = models.Project
     extra = 0
 
@@ -85,6 +85,7 @@ class ClientAdmin(NestedModelAdmin):
     list_display = ('last_name', 'first_name', 'company', 'updated')
     inlines = [
         TestimonialInline,
+        ProjectInline,
         QuoteInline,
         OrderInline,
         ]
