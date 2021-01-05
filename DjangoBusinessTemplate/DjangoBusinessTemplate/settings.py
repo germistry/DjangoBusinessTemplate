@@ -61,6 +61,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'website.views.services_category_list',
                 'website.views.projects_category_list',
+                'website.views.all_category_list',
             ],
         },
     },

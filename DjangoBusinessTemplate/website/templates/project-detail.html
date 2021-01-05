@@ -45,6 +45,11 @@
                         <li><strong>Client</strong>: {{project.client}}</li>
                         <li><strong>Project date</strong>: {{project.project_date|date:"j M, Y"}}</li>
                         <li><strong>Project URL</strong>: <a href="{{project.project_url}}">{{project.project_url}}</a></li>
+                        <li><strong>Tags</strong>: 
+                        {% for tag in project.tags.all %}
+                            <a href="#">{{tag}}</a>&ensp; 
+                        {% endfor %}
+                        </li>
                     </ul>
 
                     <p>

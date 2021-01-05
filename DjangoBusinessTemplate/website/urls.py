@@ -13,5 +13,7 @@ urlpatterns = [
     path('project/<slug:project>/', views.project_detail, name="project_detail"),
     path('pricing/', views.allpackages, name="allpackages"),
     path('posts/', views.allposts, name="allposts"),
+    path('posts/<category>/', views.PostCategoryListView.as_view(), name='posts_categories'),
     path('post/<slug:post>/', views.post_detail, name="post_detail"),
+    path('search/', views.SearchView.as_view(), name="search"),
 ]

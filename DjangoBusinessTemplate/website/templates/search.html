@@ -1,0 +1,148 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+{% block description %}Search our website for our services, past projects or our blog posts. {% endblock %}
+{% block ogtype %}website{% endblock %}
+{% block ogurl %}{% url 'allservices' %}{% endblock %}
+{% block ogimage %}{% endblock %}
+{% block keywords %}ABC Elec search services portfolio blog electricians domestic commercial renovations electrical supplies tradesmen{% endblock %}
+{% load class_name %}
+{% load static %}
+{% block content %}
+
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <ol>
+                <li><a href="{% url 'home' %}">Home</a></li>
+            </ol>
+            <h2>Search</h2>
+        </div>
+    </section>
+    
+    <!-- ======= Search Section ======= -->
+    <section id="search" class="search">
+        <div class="container">
+            <div style="">
+                <form method="GET" action=".">
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-md-6">    
+                            <input class="form-control" id="query" type="text" name="q" placeholder="eg. rewiring" required />
+                        </div>
+                        <label class="col-xs-12 col-md-1 col-form-label margin-lr-15" for="category">Category</label>
+                        <select class="col-xs-12 col-md-4 form-control margin-lr-15" id="category" name="c">
+                            <option disabled selected value> -- select an option -- </option>
+                            {% for all_category in all_category_list %}
+                            <option value="{{ all_category.category }}">{{ all_category.category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <button type="submit" value="Search">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--Results-->
+        {% if query %}
+            <div class="row">
+                <div class="col-12">
+                    <p>
+                    {% with count as total_results %}
+                        Found {{ total_results }} result{{ total_results|pluralize }}
+                    {% endwith %}
+                    </p>
+                {% if cat == None %}    
+                    <h4>Items found containing "{{ query }}":</h4>
+                {% elif count == 0 %}
+                    <p></p>
+                {% else %}
+                    <h4>Items found containing "{{ query }}" in category "{{ cat }}":</h4>
+                {% endif %}
+                </div>
+            </div>
+        {% endif %}    
+        <div class="results">
+            <div class='row'>
+        {% for object in object_list %}
+            
+            {% with object|class_name as klass %}
+                {% if klass == 'Post' %}
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                        <div class="icon-box">
+                            <img class="img-fluid" src="{{object.image.url}}" alt="{{object.image_caption}}" />
+                            <h4>Blog Post</h4>
+                            <h6><a href="{{object.get_absolute_url}}">{{object.post_title}}</a></h6>
+                            <p>{{object.excerpt|truncatewords:20}}</p>
+                        </div>
+                    </div>
+                {% elif klass == 'Service' %}
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                        <div class="icon-box">
+                            <img class="img-fluid" src="{{object.image.url}}" alt="{{object.image_caption}}" />
+                            <h4>Service</h4>
+                            <h6><a href="{{object.get_absolute_url}}">{{object.service_name}}</a></h6>
+                            <p>{{object.excerpt|truncatewords:50}}</p>
+                        </div>
+                    </div>
+                {% elif klass == 'Project' %}
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                        <div class="icon-box">
+                            <img class="img-fluid" src="{{object.image.url}}" alt="{{object.image_caption}}" />
+                            <h4>Project</h4>
+                            <h6><a href="{{object.get_absolute_url}}">{{object.project_title}}</a></h6>
+                            <p>{{object.excerpt|truncatewords:50}}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class='col-lg-4 col-md-6 d-flex align-items-stretch'>
+                        <div class="icon-box">
+                            <h6><a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a></h6>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% empty %}
+                    <div class="col-12">
+                        <p>There are no results for your query. Please try another search term.</p>
+                    </div>
+        {% endfor %}
+            </div>
+        </div>
+            <!--Pagination-->
+            <div class="blog-pagination">
+            {% if object_list.has_other_pages %}
+                <ul class="justify-content-center">
+                {% if object_list.has_previous %}
+                    <li><a href="?page=
+                        {{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}
+                        {% endif %}"><i class="icofont-rounded-left"></i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="icofont-rounded-left"></i></a></li>
+                {% endif %}
+                {% for num in object_list.paginator.page_range %}
+                    {% if object_list.number == num %}
+                    <li class="active"><a href="#!">{{ num }}</a></li>
+                    {% else %}
+                    <li><a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        {{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if object_list.has_next %}
+                    <li><a href="?page={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}
+                        {% endif %}"><i class="icofont-rounded-right"></i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="icofont-rounded-right"></i></a></li>
+                {% endif %}
+                </ul>
+            {% endif %}
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}

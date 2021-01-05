@@ -1,11 +1,11 @@
 ﻿{% extends 'base.html' %}
 
-{% block title %}{{project_categorylist.category}} Projects{% endblock %}
-{% block description %}Browse our portfolio to see other work we have completed for our valued clients.{% endblock %}
+{% block title %}{{post_categorylist.category}} Posts{% endblock %}
+{% block description %}Browse our blog for the latest news from ABC Elec.{% endblock %}
 {% block ogtype %}website{% endblock %}
-{% block ogurl %}{% url 'allprojects' %}{% endblock %}
+{% block ogurl %}{% url 'allposts' %}{% endblock %}
 {% block ogimage %}{% endblock %}
-{% block keywords %}ABC Elec portfolio projects electricians domestic commercial renovations electrical supplies tradesmen{% endblock %}
+{% block keywords %}ABC Elec blog electricians domestic commercial renovations electrical supplies tradesmen{% endblock %}
 {% load static %}
 {% block content %}
 
@@ -18,9 +18,9 @@
 
             <ol>
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'allprojects' %}">Portfolio</a></li>
+                <li><a href="{% url 'allposts' %}">Posts</a></li>
             </ol>
-            <h2>{{project_categorylist.category}} Projects</h2>
+            <h2>{{post_categorylist.category}} Posts</h2>
 
         </div>
     </section><!-- End Breadcrumbs -->
@@ -30,13 +30,13 @@
         <div class="container">
 
             <div class="row">
-                {% for project in project_categorylist.projects %}
+                {% for post in post_categorylist.posts %}
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
                     <div class="icon-box">
                         <!--<div class="icon"><i class="bx bxl-dribbble"></i></div>-->
-                        <img class="img-fluid" src="{{project.image.url}}" alt="{{project.image_caption}}" />
-                        <h4><a href="{{project.get_absolute_url}}">{{project.project_title}}</a></h4>
-                        <p>{{project.excerpt|truncatewords:50}}</p>
+                        <img class="img-fluid" src="{{post.image.url}}" alt="{{post.image_caption}}" />
+                        <h4><a href="{{post.get_absolute_url}}">{{post.post_title}}</a></h4>
+                        <p>{{post.excerpt|truncatewords:50}}</p>
                     </div>
                 </div>
                 {% endfor %}
