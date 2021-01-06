@@ -1,0 +1,111 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}All Tags{% endblock %}
+{% block description %}View the categories of all our services, past projects or our blog posts.{% endblock %}
+{% block ogtype %}website{% endblock %}
+{% block ogurl %}{% url 'tags' %}{% endblock %}
+{% block ogimage %}{% endblock %}
+{% block keywords %}ABC Elec portfolio projects electricians domestic commercial renovations electrical supplies tradesmen{% endblock %}
+{% load class_name %}
+{% load static %}
+{% block content %}
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+        <ol>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'search' %}">Search</a></li>
+            <li>All Tags</li>
+        </ol>
+        <h2>All Tags</h2>
+    </div>
+</section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Section ======= -->
+<section id="portfolio" class="portfolio">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <ul id="portfolio-filters">
+                    <li data-filter="*" class="filter-active">All</li>
+                    {% for all_tag in all_tag_list %}
+                    <li data-filter=".filter-{{ all_tag.tag }}">{{ all_tag.tag }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row portfolio-container">
+            {% for object in final_qs %}
+            
+            {% with object|class_name as klass %}
+                {% if klass == 'Post' %}
+                    <div class="col-lg-4 col-md-6 portfolio-item{% for tag in object.tags.all %} filter-{{tag}}{% endfor %}">
+                        <div class="portfolio-wrap">
+                            <img src="{{object.image.url}}" class="img-fluid" alt="{{object.image_caption}}">
+                            <div class="portfolio-info">
+                                <h4>{{object.post_title}}</h4>
+                                <p>{{object.excerpt|truncatewords:10}}</p>
+                                <div class="portfolio-links">
+                                    <a href="{{object.image.url}}" data-gall="portfolioGallery" class="venobox" title="{{object.post_title}}"><i class="bx bx-plus"></i></a>
+                                    <a href="{{object.get_absolute_url}}" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% elif klass == 'Service' %}
+                    <div class="col-lg-4 col-md-6 portfolio-item{% for tag in object.tags.all %} filter-{{tag}}{% endfor %}">
+                        <div class="portfolio-wrap">
+                            <img src="{{object.image.url}}" class="img-fluid" alt="{{object.image_caption}}">
+                            <div class="portfolio-info">
+                                <h4>{{object.service_name}}</h4>
+                                <p>{{object.excerpt|truncatewords:10}}</p>
+                                <div class="portfolio-links">
+                                    <a href="{{object.image.url}}" data-gall="portfolioGallery" class="venobox" title="{{object.service_name}}"><i class="bx bx-plus"></i></a>
+                                    <a href="{{object.get_absolute_url}}" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% elif klass == 'Project' %}
+                    <div class="col-lg-4 col-md-6 portfolio-item{% for tag in object.tags.all %} filter-{{tag}}{% endfor %}">
+                        <div class="portfolio-wrap">
+                            <img src="{{object.image.url}}" class="img-fluid" alt="{{object.image_caption}}">
+                            <div class="portfolio-info">
+                                <h4>{{object.project_title}}</h4>
+                                <p>{{object.excerpt|truncatewords:10}}</p>
+                                <div class="portfolio-links">
+                                    <a href="{{object.image.url}}" data-gall="portfolioGallery" class="venobox" title="{{object.project_title}}"><i class="bx bx-plus"></i></a>
+                                    <a href="{{object.get_absolute_url}}" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class='col-lg-4 col-md-6 portfolio-item'>
+                        <div class="portfolio-wrap">
+                            <img src="{{object.image.url}}" class="img-fluid" alt="{{object.image_caption}}">
+                            <div class="portfolio-info">
+                                <h4>{{ object }} | {{ object|class_name }}</h4>
+                                <div class="portfolio-links">
+                                    <a href="{{object.image.url}}" data-gall="portfolioGallery" class="venobox" title="{{ object }} | {{ object|class_name }}"><i class="bx bx-plus"></i></a>
+                                    <a href="{{object.get_absolute_url}}" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% empty %}
+                    <div class="col-12">
+                        <p>There are no results for your query. Please try another search term.</p>
+                    </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+
+</main>
+{% endblock %}  

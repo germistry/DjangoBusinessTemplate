@@ -62,6 +62,7 @@ TEMPLATES = [
                 'website.views.services_category_list',
                 'website.views.projects_category_list',
                 'website.views.all_category_list',
+                'website.views.all_tag_list',
             ],
         },
     },

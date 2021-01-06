@@ -2,7 +2,7 @@ from .models import Employee, Client, Testimonial, Service, Project, Category, T
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from itertools import chain
 #from datetime import datetime
 #from django.http import HttpRequest
@@ -110,6 +110,14 @@ def all_category_list(request):
     }
     return context
 
+#list for menu 
+def all_tag_list(request):
+    all_tag_list = Tag.tags.all()
+    context = {
+        "all_tag_list": all_tag_list,
+    }
+    return context
+
 class SearchView(ListView):
     template_name = 'search.html'
     count = 0
@@ -119,16 +127,18 @@ class SearchView(ListView):
         context['count'] = self.count or 0
         context['query'] = self.request.GET.get('q')
         context['cat'] = self.request.GET.get('c')
+        context['tag'] = self.request.GET.get('t')
         return context
 
     def get_queryset(self):
         request = self.request
         query = request.GET.get('q', None)
         cat = request.GET.get('c', None)
+        tag = request.GET.get('t', None)
         if query is not None:
-            post_results = Post.posts.search(query=query, cat=cat)
-            service_results = Service.services.search(query=query, cat=cat)
-            project_results = Project.projects.search(query=query, cat=cat)
+            post_results = Post.posts.search(query=query, cat=cat, tag=tag)
+            service_results = Service.services.search(query=query, cat=cat, tag=tag)
+            project_results = Project.projects.search(query=query, cat=cat, tag=tag)
             
             queryset_chain = chain(
                     post_results,
@@ -139,7 +149,7 @@ class SearchView(ListView):
                         key=lambda instance: instance.pk, 
                         reverse=True)
             self.count = len(qs) # since qs is actually a list
-            paginator = Paginator(qs, 6) # 6 posts per page
+            paginator = Paginator(qs, 6) # 6 items per page
             page = request.GET.get('page')
             try:
                 qs = paginator.page(page)
@@ -150,11 +160,29 @@ class SearchView(ListView):
             return qs 
         return Service.objects.none() # have to return some empty model
 
-    
-    
+def categories(request):
+    post_qs = Post.posts.all()
+    project_qs = Project.projects.all()
+    service_qs = Service.services.all()
+    queryset_chain = chain(
+                    post_qs,
+                    service_qs,
+                    project_qs
+            )        
+    final_qs = sorted(queryset_chain, key=lambda instance: instance.pk, reverse=True)
+    return render(request, 'categories.html', {'final_qs': final_qs})
 
-    
-
+def tags(request):
+    post_qs = Post.posts.all()
+    project_qs = Project.projects.all()
+    service_qs = Service.services.all()
+    queryset_chain = chain(
+                    post_qs,
+                    service_qs,
+                    project_qs
+            )        
+    final_qs = sorted(queryset_chain, key=lambda instance: instance.pk, reverse=True)
+    return render(request, 'tags.html', {'final_qs': final_qs})
 
 
 #def search(request):

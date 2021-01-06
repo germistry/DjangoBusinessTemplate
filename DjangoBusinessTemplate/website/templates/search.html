@@ -34,15 +34,28 @@
                         </div>
                         <label class="col-xs-12 col-md-1 col-form-label margin-lr-15" for="category">Category</label>
                         <select class="col-xs-12 col-md-4 form-control margin-lr-15" id="category" name="c">
-                            <option disabled selected value> -- select an option -- </option>
+                            <option disabled selected> -- select an option -- </option>
                             {% for all_category in all_category_list %}
                             <option value="{{ all_category.category }}">{{ all_category.category }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="form-group row">
+                        <label class="col-xs-12 col-md-1 col-form-label margin-lr-15" for="tag">Tag</label>
+                        <select class="col-xs-12 col-md-4 form-control margin-lr-15" id="tag" name="t">
+                            <option disabled selected> -- select an option -- </option>
+                            {% for all_tag in all_tag_list %}
+                            <option value="{{ all_tag.tag }}">{{ all_tag.tag }}</option>
+                            {% endfor %}
+                        </select>
                         <div class="col">
                             <button type="submit" value="Search">Search</button>
+                        </div>
+                        <div class="col">
+                            <a href="{% url 'categories' %}">All Categories</a>
+                        </div>
+                        <div class="col">
+                            <a href="{% url 'tags' %}">All Tags</a>
                         </div>
                     </div>
                 </form>
@@ -56,12 +69,16 @@
                         Found {{ total_results }} result{{ total_results|pluralize }}
                     {% endwith %}
                     </p>
-                {% if cat == None %}    
+                {% if tag == None and cat == None %}    
                     <h4>Items found containing "{{ query }}":</h4>
+                {% elif cat == None and tag != None %}    
+                    <h4>Items found containing "{{ query }}" with tag "{{ tag }}":</h4>
+                {% elif cat != None and tag == None %}    
+                    <h4>Items found containing "{{ query }}" in category "{{ cat }}":</h4>
                 {% elif count == 0 %}
                     <p></p>
                 {% else %}
-                    <h4>Items found containing "{{ query }}" in category "{{ cat }}":</h4>
+                    <h4>Items found containing "{{ query }}" in category "{{ cat }}" with tag "{{ tag }}":</h4>
                 {% endif %}
                 </div>
             </div>
@@ -86,7 +103,7 @@
                             <img class="img-fluid" src="{{object.image.url}}" alt="{{object.image_caption}}" />
                             <h4>Service</h4>
                             <h6><a href="{{object.get_absolute_url}}">{{object.service_name}}</a></h6>
-                            <p>{{object.excerpt|truncatewords:50}}</p>
+                            <p>{{object.excerpt|truncatewords:20}}</p>
                         </div>
                     </div>
                 {% elif klass == 'Project' %}
@@ -95,13 +112,13 @@
                             <img class="img-fluid" src="{{object.image.url}}" alt="{{object.image_caption}}" />
                             <h4>Project</h4>
                             <h6><a href="{{object.get_absolute_url}}">{{object.project_title}}</a></h6>
-                            <p>{{object.excerpt|truncatewords:50}}</p>
+                            <p>{{object.excerpt|truncatewords:20}}</p>
                         </div>
                     </div>
                 {% else %}
                     <div class='col-lg-4 col-md-6 d-flex align-items-stretch'>
                         <div class="icon-box">
-                            <h6><a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a></h6>
+                            <h4><a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a></h4>
                         </div>
                     </div>
                 {% endif %}

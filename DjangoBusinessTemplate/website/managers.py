@@ -49,21 +49,22 @@ class ProjectQuerySet(models.QuerySet):
     def get_published_projects(self):
         return self.filter(status='published')
 
-    def search(self, query=None, cat=None):
+    def search(self, query=None, cat=None, tag=None):
         qs = self
-        if cat is not None:
-            cat_lookup = (Q(category=cat))
+        and_lookup = Q()
+        if cat is not None and tag is not None:
+            and_lookup = (Q(category__category=cat) &
+                          Q(tags__tag=tag))
+        if tag is not None and cat is None:
+            and_lookup = (Q(tags__tag=tag))
+        if cat is not None and tag is None:
+            and_lookup = (Q(category__category=cat))
         if query is not None:
             or_lookup = (Q(project_title__icontains=query) |
                          Q(content__icontains=query) |
                          Q(excerpt__icontains=query))
-            qs = qs.filter(or_lookup).distinct()
+            qs = qs.filter(and_lookup).filter(or_lookup).distinct()
         return qs
-
-    #   if t is not None:
-    #            query &= Q(service_type=t) 
-    #   if q != '':
-    #            query &= Q(service_name__contains=q)
 
 class ProjectManager(models.Manager):
     def get_queryset(self):
@@ -81,8 +82,8 @@ class ProjectManager(models.Manager):
     def get_published_projects(self):
         return self.get_queryset().get_published_projects()
 
-    def search(self, query=None, cat=None):
-        return self.get_queryset().search(query=query, cat=cat)
+    def search(self, query=None, cat=None, tag=None):
+        return self.get_queryset().search(query=query, cat=cat, tag=tag)
 
 class ServiceQuerySet(models.QuerySet):
     def get_author_services(self, username):
@@ -94,15 +95,21 @@ class ServiceQuerySet(models.QuerySet):
     def get_published_services(self):
         return self.filter(status='published')
 
-    def search(self, query=None, cat=None):
+    def search(self, query=None, cat=None, tag=None):
         qs = self
-        if cat is not None:
-            cat_lookup = (Q(category=cat))
+        and_lookup = Q()
+        if cat is not None and tag is not None:
+            and_lookup = (Q(category__category=cat) &
+                          Q(tags__tag=tag))
+        if tag is not None and cat is None:
+            and_lookup = (Q(tags__tag=tag))
+        if cat is not None and tag is None:
+            and_lookup = (Q(category__category=cat))
         if query is not None:
             or_lookup = (Q(service_name__icontains=query) |
                          Q(content__icontains=query) |
                          Q(excerpt__icontains=query))
-            qs = qs.filter(or_lookup).distinct()
+            qs = qs.filter(and_lookup).filter(or_lookup).distinct()
         return qs
 
 class ServiceManager(models.Manager):
@@ -121,8 +128,8 @@ class ServiceManager(models.Manager):
     def get_published_services(self):
         return self.get_queryset().get_published_services()
 
-    def search(self, query=None, cat=None):
-        return self.get_queryset().search(query=query, cat=cat)
+    def search(self, query=None, cat=None, tag=None):
+        return self.get_queryset().search(query=query, cat=cat, tag=tag)
 
 class PackageItemManager(models.Manager):
     
@@ -193,15 +200,21 @@ class PostQuerySet(models.QuerySet):
     def get_published_posts(self):
         return self.filter(status='published')
     
-    def search(self, query=None, cat=None):
+    def search(self, query=None, cat=None, tag=None):
         qs = self
-        if cat is not None:
-            cat_lookup = (Q(category=cat))
+        and_lookup = Q()
+        if cat is not None and tag is not None:
+            and_lookup = (Q(category__category=cat) &
+                          Q(tags__tag=tag))
+        if tag is not None and cat is None:
+            and_lookup = (Q(tags__tag=tag))
+        if cat is not None and tag is None:
+            and_lookup = (Q(category__category=cat))
         if query is not None:
             or_lookup = (Q(post_title__icontains=query) |
                          Q(content__icontains=query) |
                          Q(excerpt__icontains=query))
-            qs = qs.filter(or_lookup).distinct()
+            qs = qs.filter(and_lookup).filter(or_lookup).distinct()
         return qs
 
 class PostManager(models.Manager):
@@ -220,8 +233,8 @@ class PostManager(models.Manager):
     def get_published_posts(self):
         return self.get_queryset().get_published_posts()
 
-    def search(self, query=None, cat=None):
-        return self.get_queryset().search(query=query, cat=cat)
+    def search(self, query=None, cat=None, tag=None):
+        return self.get_queryset().search(query=query, cat=cat, tag=tag)
 
 class CategoryQuerySet(models.QuerySet):
     def get_services_categories(self):
